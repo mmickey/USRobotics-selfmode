@@ -1,0 +1,1224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
+<HEAD>
+<TITLE>USRobotics Technical Reference</TITLE>
+</HEAD>
+<BODY>
+<A name=1></a><IMG src="techref_uk-1_1.png"><br />
+<table>
+<th><b>56K* Commands<br />Technical Reference</b></th>
+<tr><td><a href="#2">Typing Commands</a></td><td>2</td></tr>
+<tr><td><a href="#3">Basic Data Commands</td><td>3</td></tr>
+<tr><td><a href="#10">Extended&nbsp;Data&nbsp;Commands</td><td>10</td></tr>
+<tr><td><a href="#17">S-Registers</td><td>17</td></tr>
+<tr><td><a href="#25">Fax&nbsp;Commands</td><td>25</td></tr>
+<tr><td><a href="#27">Screen&nbsp;messages</td><td>27</td></tr>
+<tr><td><a href="#28">Front&nbsp;Panel&nbsp;Lights</td><td>28</td></tr>
+<tr><td><a href="#30">Serial&nbsp;Interface</td><td>30</td></tr>
+</table>
+
+<hr>
+<A name=2><b>Typing Commands</b></a><br />
+<ul>
+<li>Type commands in either upper or lower case, not a combination. Use the Backspace key to
+delete errors. (You cannot delete the original AT command since it is stored in the modem buffer.)</li>
+<li>If a command has numeric options and you do not include a number, zero is assumed. For
+example, if you type&nbsp;<b>ATB</b>, the command&nbsp;<b>ATB0</b>&nbsp;is assumed.</li>
+<li>Every command except&nbsp;<b>A/</b>,&nbsp;<b>+++</b>, and&nbsp;<b>A&gt;</b>&nbsp;must begin with the AT prefix and be entered by pressing <b>ENTER</b>.</li>
+<li>The maximum command length is 58 characters. The modem does not count the AT prefix,
+carriage returns, or spaces.</li>
+</ul>
+All defaults are based on the &amp;F1-Hardware Flow Control template loaded in NVRAM when the modem is shipped. Defaults are listed in&nbsp;<i>italics.</i><br />
+<b>Note:</b>&nbsp;Defaults are marked with an asterisk (*).<br />
+
+<hr>
+<A name=3><b>Basic Commands</b></a><br />
+<b>&lt;control key&gt;S&nbsp;</b>Stop or restart help screens.<br />
+<b>&lt;control key&gt;C</b>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i>or</i><br />
+<b>&lt;control key&gt;K&nbsp;</b>Stop help screens.<br />
+<table>
+<tr><td style="font-weight: bold;">$</td><td>Use in conjunction with&nbsp;<i>D</i>,&nbsp;<i>S</i>, or&nbsp;<i>&amp;</i>&nbsp;commands (or just AT) to display a basic command list; online help.</td></tr>
+<tr><td style="font-weight: bold;">A</td><td>Manual Answer: goes off hook in answer mode. Pressing any key aborts the operations.</td></tr>
+<tr><td style="font-weight: bold;">A/</td><td>Re-executes the last issued command. Used mainly to redial. Does not require the AT prefix or a Carriage Return.</td></tr>
+<tr><td style="font-weight: bold;">Any key</td><td>Aborts off-hook dial/answer operation and hangs up.</td></tr>
+<tr><td style="font-weight: bold;">AT</td><td>Required command prefix, except&nbsp;&nbsp;with A/, +++, and A&gt;. Use alone to test for OK result code.</td></tr>
+<tr><td style="font-weight: bold;">B<i>n</i></td><td style="font-weight: bold;">U.S./ITU-T answer sequence</td></tr>
+<tr><td>*</td><td><table><tr><td width=100><i><b>B0</b></i></td><td><i>ITU-T answer sequence</i></td></tr></table></td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100><b>B1</b></td><td>U.S. answer tone</td></tr></table></td></tr>
+<tr style="font-weight: bold;"><td>D<i>n</i></td><td>Dials the specified phone number, includes the following:</td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>0-9</td><td>Numeric digits</td></tr>
+	<tr><td>#, *</td><td>Extended touch-tone pad tones</td></tr>
+	<tr><td>L</td><td>Dials the last dialed number</td></tr>
+	</table></td></tr>
+<tr><td>*</td><td><table><tr><td width=100>P</td><td>Pulse (rotary) dial</td></tr></table></td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>R</td><td>Originates call using answer (reverse) frequencies</td></tr>
+	<tr><td>Sn</td><td>Dials the phone number string stored in NVRAM at position n (n = 0-3); phone numbers are stored with the &amp;Zn=s command</td></tr>
+	<tr><td>T</td><td>Tone dial</td></tr>
+	<tr><td>, (comma)</td><td>Pause, See S8 definition; which it is linked to</td></tr>
+	<tr><td>; (semicolon)</td><td>Return to Command mode after dialling</td></tr>
+	<tr><td>/</td><td>Delays for 125 ms. before proceeding with dial string</td></tr>
+	<tr><td>W</td><td>Wait for second dial tone (X2 or X4); linked to S6 register</td></tr>
+	<tr><td>@</td><td>Dials, waits for quiet answer, and continues (X3 or higher)</td></tr>
+	<tr><td>$</td><td>Displays a list of Dial commands</td></tr>
+	</table></td></tr>
+
+<tr style="font-weight: bold; "><td>E<i>n</i></td><td>Sets local echo</td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100>E0</td><td>Echo OFF</td></tr></table></td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>E1</td><td>Modem displays keyboard commands</td></tr></table></td></tr>
+
+<tr style="font-weight: bold; "><td>F<i>n</i></td><td>Sets online local echo of transmitted data ON/OFF</td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100>F0</td><td>Local echo ON, modem sends a copy of data it sends to the remote system to your screen</td></tr></table></td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>F1</td><td>Local echo OFF, receiving&nbsp;system may send a remote echo of data it receives</td></tr></table></td></tr>
+
+<tr style="font-weight: bold; "><td>H<i>n</i></td><td>Controls ON/OFF hook</td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>H0</td><td>Hangs up (goes on hook)</td></tr>
+	<tr><td>H1</td><td>Goes off hook</td></tr>
+	</table></td></tr>
+
+<tr style="font-weight: bold; "><td>I<i>n</i></td><td>Displays the following information</td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>I0</td><td>Four-digit product code</td></tr>
+	<tr><td>I1</td><td>Results of ROM checksum</td></tr>
+	<tr><td>I2</td><td>Results of RAM checksum</td></tr>
+	<tr><td>I3</td><td>Product type</td></tr>
+	<tr><td>I4</td><td>Current modem settings</td></tr>
+	<tr><td>I5</td><td>Nonvolatile memory (NVRAM) settings</td></tr>
+	<tr><td>I6</td><td>Link diagnostics</td></tr>
+	<tr><td>I7</td><td>Product configuration</td></tr>
+	<tr><td>I9</td><td>Plug and Play information</td></tr>
+	<tr><td>I11</td><td>Extended link diagnostics</td></tr>
+	</table></td></tr>
+
+<tr style="font-weight: bold; "><td>L<i>n</i></td><td>Controls speaker volume (internals only)</td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>L0</td><td>Lowest volume</td></tr>
+	<tr><td>L1</td><td>Low volume</td></tr>
+	</table></td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>L2</td><td>Medium volume</td></tr></table></td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100>L3</td><td>High volume</td></tr></table></td></tr>
+
+<tr style="font-weight: bold; "><td>M<i>n</i></td><td>Operates speaker</td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100>M0</td><td>Speaker always OFF</td></tr></table></td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>M1</td><td>Speaker ON until CONNECT</td></tr></table></td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>M2</td><td>Speaker always ON</td></tr>
+	<tr><td>M3</td><td>Speaker ON after dial, until CONNECT</td></tr>
+	</table></td></tr>
+
+<tr style="font-weight: bold; "><td>O<i>n</i></td><td>Returns online</td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>O0</td><td>Returns online</td></tr>
+	<tr><td>O1</td><td>Returns online and retrains</td></tr>
+	</table></td></tr>
+
+<tr style="font-weight: bold; "><td>Q<i>n</i></td><td>Displays/suppresses result codes</td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>Q0</td><td>Displays result codes</td></tr></table></td></tr>
+<tr><td>&nbsp;</td><td>
+	<table>
+	<tr><td width=100>Q1</td><td>Quiet mode; no result codes</td></tr>
+	<tr><td>Q2</td><td>Displays result codes only in<i>Originate mode</i></td></tr>
+	</table></td></tr>
+<tr style="font-weight: bold; "><td>S<i>r.b</i>=<i>n</i></td><td>Sets bit <i>.b</i> of register <i>r</i> to <i>n</i> (0/OFF or 1/ON)</td></tr>
+<tr style="font-weight: bold; "><td>S<i>r</i>=<i>n</i></td><td>Sets register <i>r</i> to <i>n</i></td></tr>
+<tr style="font-weight: bold; "><td>S<i>r</i>?</td><td>Displays contents of S-Register <i>r</i></td></tr>
+<tr style="font-weight: bold; "><td>S$</td><td>Displays a list of the S-Registers</td></tr>
+
+<tr style="font-weight: bold; "><td>V<i>n</i></td><td>Displays verbal/numeric result codes</td></tr>
+<tr><td>&nbsp;</td><td><table><tr><td width=100>V0</td><td>Numeric codes</td></tr></table></td></tr>
+<tr><td>*</td><td><table><tr style="font-style: italic; "><td width=100>V1</td><td>Verbal codes</td></tr></table></td></tr>
+
+<tr style="font-weight: bold; "><td>X<i>n</i></td><td>Sets result code displayed, default is X4</td></tr>
+</table>
+
+
+
+X<i>n</i>&nbsp;Setting<br />
+Result Codes<br />
+X0<br />
+X1<br />
+X2<br />
+X3<br />
+X4<br />
+0/OK<br />
+•<br />
+•<br />
+•<br />
+•<br />
+•<br />
+1/CONNECT<br />
+•<br />
+•<br />
+•<br />
+•<br />
+•<br />
+2/RING<br />
+•<br />
+•<br />
+•<br />
+•<br />
+•<br />
+3/NO CARRIER<br />
+•<br />
+•<br />
+•<br />
+•<br />
+•<br />
+4/ERROR<br />
+•<br />
+•<br />
+•<br />
+•<br />
+•<br />
+5/CONNECT 1200<br />
+•<br />
+•<br />
+•<br />
+•<br />
+6/NO DIAL TONE<br />
+•<br />
+•<br />
+7/BUSY<br />
+•<br />
+•<br />
+8/NO ANSWER*<br />
+•<br />
+•<br />
+9/Reserved<br />
+*Requires @ in dial string; replaces NO CARRIER<br />
+7<br />
+<hr>
+<A name=8></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Xn&nbsp;</b>(Continued<b>)</b><br />
+Xn Setting<br />
+Result Codes (Continued)<br />
+X0<br />
+X1<br />
+X2<br />
+X3<br />
+X4<br />
+10/CONNECT 2400<br />
+•<br />
+•<br />
+•<br />
+•<br />
+11/RINGING<br />
+•<br />
+13/CONNECT 9600<br />
+•<br />
+•<br />
+•<br />
+•<br />
+18/CONNECT 4800<br />
+•<br />
+•<br />
+•<br />
+•<br />
+20/CONNECT 7200&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+21/CONNECT 12000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+25/CONNECT 14400&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+43/CONNECT 16800&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+85/CONNECT 19200&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+91/CONNECT 21600&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+99/CONNECT 24000&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+103/CONNECT 26400&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+107/CONNECT 28800&nbsp;<br />
+•<br />
+•<br />
+•<br />
+•<br />
+151/CONNECT 31200<br />
+•<br />
+•<br />
+•<br />
+•<br />
+155/CONNECT 33600<br />
+•<br />
+•<br />
+•<br />
+•<br />
+256/CONNECT 28000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+260/CONNECT 29333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+264/CONNECT 30666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+268/CONNECT 32000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+180/CONNECT 33333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+272/CONNECT 34666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+8<br />
+<hr>
+<A name=9></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Xn&nbsp;</b>(Continued<b>)</b><br />
+Xn Setting<br />
+Result Codes (Continued)<br />
+X0<br />
+X1<br />
+X2<br />
+X3<br />
+X4<br />
+276/CONNECT 36000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+184/CONNECT 37333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+280/CONNECT 38666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+284/CONNECT 40000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+188/CONNECT 41333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+192/CONNECT 42666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+196/CONNECT 44000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+200/CONNECT 45333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+204/CONNECT 46666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+208/CONNECT 48000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+212/CONNECT 49333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+216/CONNECT 50666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+220/CONNECT 52000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+224/CONNECT 53333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+228/CONNECT 54666<br />
+•<br />
+•<br />
+•<br />
+•<br />
+232/CONNECT 56000<br />
+•<br />
+•<br />
+•<br />
+•<br />
+236/CONNECT 57333<br />
+•<br />
+•<br />
+•<br />
+•<br />
+Adaptive&nbsp;Dialling<br />
+•<br />
+•<br />
+•<br />
+Wait for 2nd Dial Tone (W)<br />
+•<br />
+•<br />
+Wait for Answer (@)<br />
+•<br />
+•<br />
+Fast Dial<br />
+•<br />
+9<br />
+<hr>
+<A name=10></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Y<i>n</i></b><br />
+<b>Selects power-on/reset default configuration</b><br />
+<i>*</i><br />
+<i>Y0</i><br />
+<i>Use profile 0 setting in NVRAM</i><br />
+Y1<br />
+Use profile&nbsp;1 setting in NVRAM<br />
+Y2<br />
+Use factory configuration 0 (&amp;F0)<br />
+Y3<br />
+Use factory configuration 1 (&amp;F1)<br />
+Y4<br />
+Use factory configuration 2 (&amp;F2)<br />
+<b>Z</b><br />
+<b>Resets modem</b><br />
+Z0<br />
+Resets modem to NVRAM profile selected by Y command or dip 7<br />
+Z1<br />
+Resets modem to NVRAM profile 0<br />
+Z2<br />
+Resets modem to NVRAM profile 1<br />
+Z3<br />
+Resets modem to factory default profile 0 (&amp;F0)<br />
+Z4<br />
+Resets modem to factory default profile 1 (&amp;F1)<br />
+Z5<br />
+Resets modem to factory default profile 2 (&amp;F2)<br />
+Extended Data Commands<br />
+<b>&amp;$</b><br />
+<b>Displays a list of ampersand (&amp;) commands</b><br />
+<b>&amp;A<i>n</i></b><br />
+<b>Enables/disables additional result code subsets (see&nbsp;X<i>n</i></b><b>)</b><br />
+&amp;A0<br />
+ARQ result codes disabled<br />
+&amp;A1<br />
+ARQ result codes enabled<br />
+&amp;A2<br />
+Modulation indicator added<br />
+<i>*-</i><br />
+<i>&amp;A3</i><br />
+<i>Protocol indicators added</i><i>LAPM/MNP/NONE (error control) and V42</i>bis<i>/MNP5 (data<br />compression)</i><br />
+10<br />
+<hr>
+<A name=11></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>&amp;B<i>n</i></b><br />
+<b>Manages modem’s serial port rate</b><br />
+&amp;B0<br />
+Variable, follows connection rate<br />
+<i>*</i><br />
+<i>&amp;B1</i><br />
+<i>Fixed serial port rate</i><br />
+&amp;B2<br />
+Fixed in ARQ mode, variable in non-ARQ mode<br />
+<b>&amp;C<i>n</i></b><br />
+<b>Controls Carrier Detect (CD) signal.</b><br />
+&amp;C0<br />
+CD override<br />
+<i>*</i><br />
+<i>&amp;C1</i><br />
+<i>Normal CD operations</i><br />
+<b>&amp;D<i>n</i></b><br />
+<b>Controls&nbsp;Data Terminal Ready (DTR) operations</b><br />
+&amp;D0<br />
+DTR override<br />
+&amp;D1<br />
+DTR toggle causes online<i>&nbsp;</i>Command mode<br />
+<i>*</i><br />
+<i>&amp;D2</i><br />
+<i>Normal DTR operations</i><br />
+&amp;D3<br />
+Resets on receipt of DTR<br />
+<b>&amp;F<i>n</i></b><br />
+<b>Loads a read-only (non-programmable) factory configuration</b><br />
+&amp;F0<br />
+Generic template, no flow control<br />
+&amp;F1<br />
+Hardware flow control template<br />
+&amp;F2<br />
+Software flow control template<br />
+11<br />
+<hr>
+<A name=12></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>&amp;H<i>n</i></b><br />
+<b>Sets Transmit Data (TD) flow control (see also &amp;R<i>n</i></b><b>)</b><br />
+&amp;H0<br />
+Flow control disabled<br />
+<i>*</i><br />
+<i>&amp;H1</i><br />
+<i>Hardware flow control, Clear to Send (CTS)</i><br />
+&amp;H2<br />
+Software flow control, XON/XOFF<br />
+&amp;H3<br />
+Hardware and software flow control<br />
+<b>&amp;I<i>n</i></b><br />
+<b>Sets Receive Data (RD) software flow control (see also &amp;R<i>n</i></b><b>)</b><br />
+<i>&amp;I0</i><br />
+<i>Software flow control disabled</i><br />
+&amp;I1<br />
+XON/XOFF signals to your modem and remote system<br />
+&amp;I2<br />
+XON/XOFF signals to your modem only<br />
+<b>&amp;K<i>n</i></b><br />
+<b>Enables/disables data compression</b><br />
+&amp;K0<br />
+Data compression disabled<br />
+<i>*</i><br />
+<i>&amp;K1</i><br />
+<i>Auto enable/disable</i><br />
+&amp;K2<br />
+Data compression enabled<br />
+&amp;K3<br />
+MNP5 compression disabled<br />
+<b>&amp;M<i>n</i></b><br />
+<b>Sets Error Control (ARQ) for connections at 1200 bps and higher</b><br />
+&amp;M0<br />
+Normal mode, error control disabled<br />
+&amp;M1<br />
+Reserved<br />
+&amp;M2<br />
+Reserved<br />
+&amp;M3<br />
+Reserved<br />
+<i>*</i><br />
+<i>&amp;M4</i><br />
+<i>Normal/ARQ</i><br />
+&amp;M5<br />
+ARQ mode<br />
+12<br />
+<hr>
+<A name=13></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>&amp;N<i>n</i></b><br />
+<b>Sets connect speed, if connection cannot be made at this speed, the modem will hang up. When<br />used in conjunction with &amp;U<i>n</i></b><b>&nbsp;and &amp;U<i>n</i></b><b>&nbsp;is greater than 0, &amp;N<i>n</i></b><b>&nbsp;sets the ceiling connect speed.<br />&amp;U<i>n</i></b><b>&nbsp;sets the floor connect speed. (See also the table in the &amp;U<i>n&nbsp;</i></b><b>section.)</b><br />
+<i>*</i><br />
+<i>&amp;N0</i><br />
+<i>Connection speed is determined by the remote modem</i><br />
+&amp;N1<br />
+300&nbsp;bps<br />
+&amp;N2<br />
+1200 bps<br />
+&amp;N3<br />
+2400 bps<br />
+&amp;N4<br />
+4800 bps<br />
+&amp;N5<br />
+7200 bps<br />
+&amp;N6<br />
+9600 bps<br />
+&amp;N7<br />
+12,000 bps<br />
+&amp;N8<br />
+14,400 bps<br />
+&amp;N9<br />
+16,800 bps<br />
+&amp;N10<br />
+19,200 bps<br />
+&amp;N11<br />
+21,600 bps<br />
+&amp;N12<br />
+24,000 bps<br />
+&amp;N13<br />
+26,400&nbsp;bps<br />
+&amp;N14<br />
+28,800&nbsp;bps<br />
+&amp;N15<br />
+31,200&nbsp;bps<br />
+&amp;N16<br />
+33,600&nbsp;bps<br />
+<b>&amp;R<i>n</i></b><br />
+<b>Sets Receive Data (RD) hardware flow control, Request to Send (RTS) (see also &amp;H<i>n</i></b><b>)</b><br />
+&amp;R0<br />
+Reserved<br />
+&amp;R1<br />
+Modem ignores RTS<br />
+13<br />
+<hr>
+<A name=14></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<i>*</i><br />
+<i>&amp;R2</i><br />
+<i>Received Data to computer only on RTS</i><br />
+<b>&amp;S<i>n</i></b><br />
+<b>Controls Data Set Ready (DSR) operations</b><br />
+<i>*</i><br />
+<i>&amp;S0</i><br />
+<i>DSR override; always ON</i><br />
+&amp;S1<br />
+Modem controls DSR<br />
+<b>&amp;T<i>n</i></b><br />
+<b>Begins test modes.</b><br />
+&amp;T0<br />
+Ends testing<br />
+&amp;T1<br />
+Analogue&nbsp;Loopback<br />
+&amp;T2<br />
+Reserved<br />
+&amp;T3<br />
+Local Digital Loopback<br />
+&amp;T4<br />
+Enables Remote Digital Loopback<br />
+<i>*</i><br />
+<i>&amp;T5</i><br />
+<i>Prohibits Remote Digital Loopback</i><br />
+&amp;T6<br />
+Initiates Remote Digital Loopback<br />
+&amp;T7<br />
+Remote Digital with self-test and error detector<br />
+&amp;T8<br />
+Analogue&nbsp;Loopback with self-test and error detector<br />
+14<br />
+<hr>
+<A name=15></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>&amp;U<i>n</i></b><br />
+<i>&amp;U0</i><br />
+<i>No restrictions on the minimum&nbsp;<br />speed for the connection</i><br />
+&amp;U1<br />
+300 bps<br />
+&amp;U2<br />
+1200 bps<br />
+&amp;U3<br />
+2400&nbsp;bps<br />
+&amp;U4<br />
+4800 bps<br />
+&amp;U5<br />
+7200 bps<br />
+&amp;U6<br />
+9600 bps<br />
+&amp;U7<br />
+12,000 bps<br />
+&amp;U8<br />
+14,400 bps<br />
+&amp;U9<br />
+16,800 bps<br />
+&amp;U10<br />
+19,200 bps<br />
+&amp;U11<br />
+21,600 bps<br />
+&amp;U12<br />
+24,000 bps<br />
+&amp;U13<br />
+26,400 bps<br />
+&amp;U14<br />
+28,800 bps<br />
+&amp;U15<br />
+31,200 bps<br />
+&amp;U16<br />
+33,600 bps<br />
+15<br />
+<hr>
+<A name=16></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>&amp;W<i>n</i></b><br />
+<b>Writes current configuration to NVRAM templates</b><br />
+&amp;W0<br />
+Modifies the NVRAM 0 template (Y0)<br />
+&amp;W1<br />
+Modifies the NVRAM 1 template (Y1)<br />
+<b>&amp;Yn</b><br />
+<b>Sets break handling</b><br />
+&amp;Y0<br />
+Destructive, but doesn’t send break<br />
+<i>*</i><br />
+<i>&amp;Y1</i><br />
+<i>Destructive, expedited</i><br />
+&amp;Y2<br />
+Nondestructive, expedited<br />
+&amp;Y3<br />
+Nondestructive,&nbsp;unexpedited<br />
+<b>&amp;Z<i>n</i></b><b>=<i>s</i></b><br />
+Writes phone number string<i>&nbsp;s</i>&nbsp;to NVRAM at position<i>&nbsp;n (n =&nbsp;</i>0−3)<br />
+<b>&amp;Z<i>n</i></b><b>=L</b><br />
+Writes last executed dial string to NVRAM at position&nbsp;<i>n</i>&nbsp;(<i>n</i>&nbsp;= 0−3)<br />
+<b>&amp;Z<i>n</i></b><b>?</b><br />
+Displays the phone number stored at position&nbsp;<i>n&nbsp;</i>(<i>n</i>&nbsp;= 0−3)<br />
+<b>&amp;ZL?</b><br />
+Displays the last executed dial string<br />
+<b>+++</b><br />
+<b>&nbsp; &nbsp;</b>Escapes to online-command mode<br />
+16<br />
+<hr>
+<A name=17></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>S-Registers</b><br />
+To change a setting, use the ATS<i>r</i>=<i>n</i>&nbsp;command, where<i>&nbsp;r</i>&nbsp;is the register and<i>&nbsp;n</i>&nbsp;is a decimal value from 0&nbsp;−&nbsp;255<br />(unless otherwise indicated).<br />
+<b>Register&nbsp;Default</b><br />
+<b>Function</b><br />
+S0<br />
+0<br />
+Sets the number of rings on which to answer in Auto Answer mode. When set to 0, Auto<br />Answer is disabled.<br />
+S1<br />
+0<br />
+Counts and stores the number of rings from an incoming call. (S0 must be greater than 0.)<br />
+S2<br />
+43<br />
+Stores the ASCII decimal code for the escape code character. Default character is<i>&nbsp;+</i>. A value of<br />128 – 255 disables the escape code.<br />
+S3<br />
+13<br />
+Stores the ASCII code for the Carriage Return character. Valid range is 0 – 127.<br />
+S4<br />
+10<br />
+Stores the ASCII decimal code for the Line Feed character. Valid range is 0 – 127.<br />
+S5<br />
+8<br />
+Stores the ASCII decimal code for the Backspace character. A value of 128−255 disables the<br />Backspace key’s delete function.<br />
+S6<br />
+2<br />
+Sets the number of seconds the modem waits before&nbsp;dialling. If&nbsp;X<i>n</i>&nbsp; is set to X2 or X4, this is the<br />time-out length if there isn't a dial tone.<br />
+S7<br />
+60<br />
+Sets the number of seconds the modem waits for a carrier.<br />
+17<br />
+<hr>
+<A name=18></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register&nbsp;Default</b><br />
+<b>Function</b><br />
+S8<br />
+2<br />
+Sets the duration, in seconds, for the pause (,) option in the Dial command.<br />
+S9<br />
+6<br />
+Sets the required duration, in tenths of a second, of the remote modem’s carrier signal before<br />recognition by the 3Com U.S. Robotics modem.<br />
+S10<br />
+14<br />
+Sets the duration, in tenths of a second, that the modem waits to hang up after loss of carrier.<br />This guard time allows the modem to distinguish between a line disturbance from a true<br />disconnect (hang up) by the remote modem.<br />
+Note: If you set S10 = 255, the modem will not hang up when carrier is lost. Dropping DTR<br />hangs up the modem.<br />
+S11<br />
+70<br />
+Sets the duration and spacing, in milliseconds, for tone&nbsp;dialling.<br />
+S12<br />
+50<br />
+Sets the duration, in fiftieths of a second, of the guard time for the escape code sequence (+++).<br />
+S13<br />
+0<br />
+Bit-mapped register. Select the bit(s) you want on and set S13 to the total of the values in the<br />Value column. For example, ATS13 = 17 enables bit 0 (value is 1) and bit 4 (value is 16).<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+Reset when DTR drops.<br />
+1<br />
+2<br />
+Reset non-MNP transmit buffer from 1.5K to 128 bytes.*<br />
+2<br />
+4<br />
+Set backspace key to delete.<br />
+3<br />
+8<br />
+On DTR signal, auto dial the number stored in NVRAM at<br />position 0.<br />
+4<br />
+16<br />
+At power on/reset, auto dial the number stored in NVRAM at position 0.<br />
+18<br />
+<hr>
+<A name=19></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register&nbsp;Default</b><br />
+<b>Function</b><br />
+&nbsp; &nbsp;&nbsp;S13 (Continued)<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+5<br />
+32<br />
+Reserved<br />
+6<br />
+64<br />
+Disable quick retrains.<br />
+7 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;128<br />
+Disconnect on escape code.<br />
+*&nbsp;The 1.5K-byte non-ARQ buffer allows data transfer with Xmodem- and Ymodem-type file transfer protocols<br />
+without using flow control.<br />The 128-byte option lets remote users with slower modems keep data you’re sending from scrolling off their<br />screens. When remote users send your computer an XOFF (Ctrl-S) and you stop transmitting, the data in transit<br />from your modem’s buffer does not exceed the size of their screen. This is also very helpful in situations when a<br />remote modem/printer application is losing characters.<br />
+S14<br />
+0<br />
+Reserved<br />
+S15<br />
+0<br />
+Bit-mapped register setup. To set the register, see instructions for S13.<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+Disable ARQ/MNP for V.22.<br />
+1<br />
+2<br />
+Disable ARQ/MNP for V.22bis.<br />
+2<br />
+4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+Disable ARQ/MNP&nbsp;V.32/V.32bis/V.32terbo.<br />
+3<br />
+8<br />
+Disable MNP handshake.<br />
+4<br />
+16<br />
+Disable MNP level 4.<br />
+19<br />
+<hr>
+<A name=20></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register&nbsp;Default</b><br />
+<b>Function</b><br />
+S15 (Continued)<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+5<br />
+32<br />
+Disable MNP level 3.<br />
+6<br />
+64<br />
+MNP incompatibility.<br />
+7<br />
+128<br />
+Disable V.42 operation.<br />
+To disable V.42 detect phase,&nbsp;select the total of the values for bits 3 and 7 (in other words S15 =<br />136 [the sum of values 8 and 128])<br />
+S16<br />
+0<br />
+Reserved<br />
+S17&nbsp;<br />
+0<br />
+Reserved<br />
+S18<br />
+0<br />
+Test timer for &amp;T loopback testing. Sets the time in seconds of testing before the modem<br />automatically times out and terminates the test. When set to 0, the timer is disabled. Valid range<br />is 1-255.<br />
+S19<br />
+0<br />
+Sets the duration, in minutes, for the inactivity timer. The timer activates when there is no data<br />activity on the phone line; at time-out the modem hangs up. S19 = 0 disables the timer.<br />
+S20<br />
+0<br />
+Reserved<br />
+S21<br />
+10<br />
+Sets the length, in 10-millisecond units, of breaks sent from the modem to the computer;<br />applies to MNP or V.42 mode only.<br />
+20<br />
+<hr>
+<A name=21></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register&nbsp;Default</b><br />
+<b>Function</b><br />
+S22<br />
+17<br />
+Stores the ASCII decimal code for the XON character.<br />
+S23<br />
+19<br />
+Stores the ASCII decimal code for the XOFF character.<br />
+S24<br />
+0<br />
+Reserved<br />
+S25<br />
+20<br />
+Sets the duration, in hundredths of a second, that DTR must be dropped so that the modem<br />doesn’t interpret a random glitch as a DTR loss. (Most users will want to use the default; this<br />register is useful for setting compatibility with older systems running under older operating<br />software.)<br />
+S26<br />
+0<br />
+Reserved<br />
+S27<br />
+0<br />
+Bit-mapped register setup. To set the register, see instructions for S13.<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+Enables ITU-T V.21 modulation at 300&nbsp;bps for U.K. calls<br />
+1<br />
+2<br />
+Enables&nbsp;unencoded (non-trellis coded) modulation in V.32 mode.<br />
+2<br />
+4<br />
+Disables V.32 modulation.<br />
+3<br />
+8<br />
+Disables 2100 Hz answer tone to allow two V.42 modems to connect faster.<br />
+4<br />
+16<br />
+Enables V.23 fallback mode.<br />
+5<br />
+32<br />
+Disables V.32<i>bis</i>&nbsp;mode.<br />
+6<br />
+64<br />
+Disable V.42 selective reject.<br />
+21<br />
+<hr>
+<A name=22></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register &nbsp;&nbsp;Default</b><br />
+<b>Function</b><br />
+&nbsp; &nbsp; &nbsp; S27 (Continued)<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+7<br />
+128<br />
+Software compatibility mode. This setting disables the codes and displays the<br />9600&nbsp;code instead. The actual rate of the call can be viewed on the ATI6<br />screen. Used for unusual software incompatibilities. Some software may not<br />accept 7200, 12,000, and 14,400 bps or greater result codes.<br />
+S28<br />
+0<br />
+Eliminates the V.32 answer tones for a faster connection.<br />
+8<br />
+Default&nbsp;item, all times are in tenths of seconds.<br />
+255<br />
+Disables all connections except V.32 at 9600&nbsp;bps.<br />
+S29<br />
+20<br />
+Sets the duration, in tenths of a second, of the V.21 answer mode fallback timer.<br />
+S30<br />
+0<br />
+Reserved<br />
+S31<br />
+128<br />
+Reserved<br />
+22<br />
+<hr>
+<A name=23></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register &nbsp;&nbsp;Default</b><br />
+<b>Function</b><br />
+S32<br />
+2<br />
+Bit-mapped register setup. To set the register, see the instructions for S13.<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+V.8 Call Indicate enabled.<br />
+1<br />
+2<br />
+Enables V.8 mode.<br />
+2<br />
+4<br />
+Reserved.<br />
+3<br />
+8<br />
+Disable V.34 modulation.<br />
+4<br />
+16<br />
+Disable V.34+ modulation.<br />
+5<br />
+32<br />
+Disable x2 modulation.<br />
+6<br />
+64<br />
+Disable V.90 modulation.<br />
+7<br />
+128<br />
+Reserved.<br />
+S33<br />
+0<br />
+Bit-mapped register setup. To set the register, see the instructions for S13.<br />
+<b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+Disable 2400 symbol rate.<br />
+1<br />
+2<br />
+Disable 2743 symbol rate.<br />
+2<br />
+4<br />
+Disable 2800 symbol rate.<br />
+3<br />
+8<br />
+Disable 3000 symbol rate.<br />
+4<br />
+16&nbsp;<br />
+Disable 3200 symbol rate.<br />
+5<br />
+32<br />
+Disable 3429 symbol rate.<br />
+6<br />
+64<br />
+Reserved<br />
+7<br />
+128<br />
+Disable shaping.<br />
+23<br />
+<hr>
+<A name=24></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Register &nbsp;&nbsp;Default</b><br />
+<b>Function</b><br />
+S34<br />
+0<br />
+Bit-mapped register setup. To set registers, see instructions for S13.<br /><b>Bit</b><br />
+<b>Value</b><br />
+<b>Result</b><br />
+0<br />
+1<br />
+Disable 8S-2D trellis encoding.<br />
+1<br />
+2<br />
+Disable 16S-4D trellis encoding.<br />
+2<br />
+4<br />
+Disable 32S-2D trellis encoding.<br />
+3<br />
+8<br />
+Disable 64S-4D trellis encoding.<br />
+4<br />
+16<br />
+Disable non-linear coding.<br />
+5<br />
+32<br />
+Disable TX level deviation.<br />
+6<br />
+64<br />
+Disable Pre-emphasis.<br />
+7<br />
+128<br />
+Disable Pre-coding.<br />
+&nbsp; &nbsp; S35-S37<br />
+Reserved<br />
+S38<br />
+0<br />
+Sets an optional delay, in seconds, before a forced hang-up and clearing of the Transmit buffer<br />when DTR drops during an ARQ call. This allows time for a remote modem to acknowledge<br />receipt of all transmitted data before it is disconnected. The modem immediately hangs up when<br />DTR drops.<br />This option only applies to connections terminated by dropping DTR. If the modem receives the<br />ATH command, it ignores S38 and immediately hangs up.<br />
+&nbsp; &nbsp; S39-S40<br />
+Reserved<br />
+S41<br />
+0<br />
+Reserved<br />
+&nbsp; &nbsp; S42<br />
+0<br />
+Reserved<br />
+24<br />
+<hr>
+<A name=25></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+Fax Commands<br />
+<b>+FCLASS=<i>n</i></b><br />
+<b>Sets the mode of operation<br /></b><i>FCLASS=0</i><br />
+<i>Data mode</i><br />
+FCLASS=1<br />
+Group 3 Facsimile Service Class 1 mode<br />
+FCLASS=2.0<br />
+Group 3 Facsimile Service Class 2.0 mode<br />
+<b>FCLASS?</b><br />
+Displays the current FCLASS mode (see mode descriptions above)<br />
+<b>+FCLASS=?</b><br />
+Displays the FCLASS mode options (see mode descriptions above)<br />
+<b>+FTS=<i>n</i></b><br />
+Stops the fax transmission. Then the modem waits for a specified time before&nbsp;<b>OK</b>&nbsp;appears on&nbsp;<br />screen. The pause is set in 10 millisecond intervals.&nbsp;<i>n</i>&nbsp;is the number of 10 millisecond intervals&nbsp;<br />that pass before&nbsp;<b>OK</b>&nbsp;appears. (<i>n</i>=0-255)<br />
+<b>+FRS=<i>n</i></b><br />
+Makes the modem wait for a specified length of silence before sending&nbsp;<b>OK</b>&nbsp;to the screen. The&nbsp;<br />pause is set in10 millisecond intervals.&nbsp;<i>n</i>&nbsp;is the number of 10 millisecond intervals that pass&nbsp;<br />before&nbsp;<b>OK</b>&nbsp;appears.(<i>n</i>=0-255)<br />Note:<b>&nbsp;</b>This command terminates with&nbsp;<b>OK</b>&nbsp;when either the specified amount of silence is&nbsp;<br />detected or when the user anything (which is ignored).<br />
+<b>+FTM=<i>n</i></b><br />
+Transmits data using the modulation specified by&nbsp;<i>n</i>.(<i>n</i>&nbsp;= 3, 24, 48, 72, 96, 97, 98, 121, 122,<br />145, or 146)<br />Note:<b>&nbsp;</b>See the “Screen Messages” table at the end of this section for an explanation of<br />messages that appear in response to this command.<br />
+25<br />
+<hr>
+<A name=26></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>+FRM=<i>n</i></b><br />
+Receives data using the modulation specified by&nbsp;<i>n</i>. (<i>n</i>&nbsp;= 3, 24, 48, 72, 96, 97, 98, 121, 122,&nbsp;<br />145, or 146)<br />Note: See the “Screen Messages” table at the end of this section for an explanation of&nbsp;<br />messages that appear in response to this command.<br />
+<b>+FTH=<i>n</i></b><br />
+Transmits data framed in the HDLC protocol using the modulation specified by&nbsp;<i>n</i>. (<i>n</i>&nbsp;= 3, 24,&nbsp;<br />48, 72, 96, 97, 98, 121, 122, 145, or 146)<br />Note: See the “Screen Messages” table at the end of this section for an explanation of&nbsp;<br />messages that appear in response to this command.<br />
+<b>+FRH=<i>n</i></b><br />
+Receives data framed in the HDLC protocol using the modulation specified by&nbsp;<i>n</i>. (<i>n</i>&nbsp;= 3, 24,<br />48, 72, 96, 97, 98, 121, 122, 145, or 146)<br />Note: See the “Screen Messages” table at the end of this section for an explanation of&nbsp;<br />messages that appear in response to this command.<br />
+26<br />
+<hr>
+<A name=27></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+Screen Messages<br /><b>Displayed</b><br />
+<b>Displayed</b><br />
+<b>Description</b><br />
+<b>as a number&nbsp;in words</b><br />
+0<br />
+OK<br />
+The previous command has been processed successfully.<br />
+1<br />
+CONNECT<br />
+The modem has just connected to another modem.<br />
+2<br />
+RING<br />
+Reports the receipt of a network altering ring.<br />
+3<br />
+NO CARRIER<br />
+&nbsp; No carrier&nbsp;is being received from the<br />
+&nbsp;modem.<br />
+4&nbsp;<br />
+ERROR<br />
+&nbsp; The previous command line has not been<br />&nbsp; recognized or was completed abnormally.<br />
+5<br />
+NO DIAL<br />
+&nbsp; (Optional) Dial tone was not received within<br />
+TONE<br />
+&nbsp; the time-out period.<br />
+6<br />
+BUSY<br />
+&nbsp; (Optional) A busy&nbsp;signal was detected.<br />
+64<br />
+CONNECT/<br />
+&nbsp; (Optional) The modem has established a connection. This response is used&nbsp;<br />
+FAX<br />
+&nbsp; only when the fax mode is selected.<br />
+27<br />
+<hr>
+<A name=28></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+Front Panel Lights (External Modems Only)<br />
+Symbol<br />
+Meaning<br />
+Status<br />
+AA&nbsp;..........&nbsp;Auto Answer<br />
+Answer mode: &nbsp;ON when register S0 is set to 1 or higher (Auto<br />Answer), and when answering a call; OFF when modem originates a<br />call. &nbsp;Light flashes when there is an incoming call.<br />
+CD..........&nbsp;Carrier Detect<br />
+ON if modem receives a valid data signal (carrier) from a remote<br />modem, indicating that data transmission is possible. &nbsp;Always ON if<br />CD override is ON (&amp;C0).<br />
+RD..........&nbsp;Received Data<br />
+Flashes when modem sends result codes or passes received data bits<br />from remote.<br />
+SD..........&nbsp;Send Data<br />
+Flashes when computer sends a data bit to modem.<br />
+TR&nbsp;..........&nbsp;Data Terminal Ready&nbsp;ON if modem receives a DTR signal from computer. &nbsp;Always ON<br />
+(modem ignores DTR) if the DTR override is ON (&amp;D0).<br />
+28<br />
+<hr>
+<A name=29></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+Symbol<br />
+Meaning<br />
+Status<br />
+CS..........&nbsp;Clear to Send<br />
+ON until modem lowers CTS when Transmit Data hardware flow<br />control is enabled (&amp;H1, &amp;H3).<br />
+ARQ/ &nbsp; &nbsp; &nbsp;Error Control/<br />
+FAX&nbsp;........&nbsp;Fax Operations&nbsp;..............&nbsp;Data Mode: Automatic Repeat Request. &nbsp;ON if modem is set to<br />
+&amp;M4 or &amp;M5 and successfully establishes an error control<br />connection. &nbsp;Flashes when modem retransmits data to remote<br />modem.<br />
+...............&nbsp;......................................&nbsp;Fax Mode: &nbsp;Flashes to indicate fax mode.<br />
+...............&nbsp;......................................&nbsp;56K Message Modem: &nbsp;Dual color LED with green indicating 56K<br />
+Message Modem is enabled and red indicating it is off. &nbsp;Solid<br />green indicates no new messages. Each new message will be<br />indicated by a single slow blink. Fast blinking indicates that the<br />flash memory is full.<br />
+OH&nbsp;...........&nbsp;Off Hook&nbsp;........................&nbsp;ON when modem accesses the phone line. &nbsp;Off when modem is<br />
+On Hook.<br />
+29<br />
+<hr>
+<A name=30></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+The Serial Interface<br />
+The serial interface is a standard developed by the Electronic Industries Association (EIA). &nbsp;It defines<br />the signals and voltages used when data is exchanged between a computer and a modem or serial<br />printer.<br />
+The entire standard covers many more functions than are used in most data communications<br />applications. &nbsp;Data is transmitted between the devices over a shielded serial cable with a 25-pin male<br />(DB-25P) connector to the modem and a 25-pin, 9-pin, 8-pin, or custom-built connector to the<br />computer.<br />
+Pin assignments are factory-set in the 56K Message Modem to match the standard DB-25 assignments<br />in the following table. &nbsp;DB-9 connectors for IBM/AT-compatible computers should be wired at the<br />computer end of the cable as shown in the DB-9 column.<br />
+<b>Serial Interface Pin Definitions</b><br />
+<b>Signal Source</b><br />
+<b>DB-25DB-9&nbsp;Circuit</b><br />
+<b>Function&nbsp;</b><br />
+<b>Computer/Modem</b><br />
+1<br />
+—<br />
+AA<br />
+Chassis Ground<br />
+Both<br />
+2<br />
+3<br />
+BA<br />
+Transmitted Data<br />
+Computer<br />
+3<br />
+2<br />
+BB<br />
+Received Data<br />
+Modem<br />
+4<br />
+7<br />
+CA<br />
+Request to Send<br />
+Computer<br />
+5<br />
+8<br />
+CB<br />
+Clear to Send<br />
+Modem<br />
+6<br />
+6<br />
+CC<br />
+Data Set Ready<br />
+Modem<br />
+7<br />
+5<br />
+AB<br />
+Signal Ground<br />
+Both<br />
+30<br />
+<hr>
+<A name=31></a><b>TECHNICAL&nbsp;REFERENCE</b><br />
+<b>Signal Source</b><br />
+<b>DB-25DB-9&nbsp;Circuit</b><br />
+<b>Function&nbsp;</b><br />
+<b>Computer/Modem</b><br />
+8<br />
+1<br />
+CF<br />
+Carrier Detect<br />
+Modem<br />
+12<br />
+—<br />
+SCF<br />
+Speed Indicate<br />
+Modem<br />
+20<br />
+4<br />
+CD<br />
+Data Terminal Ready<br />
+Computer<br />
+22<br />
+9<br />
+CE&nbsp;<br />
+Ring Indicate<br />
+Modem<br />
+31<br />
+<hr>
+<A name=32></a><IMG src="techref_uk-32_1.png"><br />
+<b>*</b>IMPORTANT!&nbsp;&nbsp;In&nbsp;accordance&nbsp;with&nbsp;the&nbsp;ITU&nbsp;standard&nbsp;for&nbsp;V.90&nbsp;transmissions,&nbsp;this&nbsp;modem&nbsp;is&nbsp;capable&nbsp;of&nbsp;56&nbsp;Kbps<br />
+downloads.&nbsp;However,&nbsp;the&nbsp;download&nbsp;speeds&nbsp;you&nbsp;experience&nbsp;may&nbsp;be&nbsp;lower&nbsp;due&nbsp;to&nbsp;varying&nbsp;line&nbsp;conditions&nbsp;and<br />
+other&nbsp;factors.&nbsp;Uploads&nbsp;from&nbsp;users&nbsp;to&nbsp;server&nbsp;equipment&nbsp;travel&nbsp;at&nbsp;speeds&nbsp;up&nbsp;to&nbsp;31.2&nbsp;Kbps.&nbsp;An&nbsp;analogue&nbsp;phone&nbsp;line<br />
+compatible&nbsp;with&nbsp;the&nbsp;ITU&nbsp;V.90&nbsp;standard&nbsp;USRobotics&nbsp;proprietary&nbsp;56K&nbsp;technology,&nbsp;and&nbsp;an&nbsp;Internet<br />
+provider&nbsp;or&nbsp;corporate&nbsp;host&nbsp;site&nbsp;with&nbsp;the&nbsp;ITU&nbsp;V.90&nbsp;standard&nbsp;or&nbsp;USRobotics&nbsp;proprietary&nbsp;56K&nbsp;technology<br />
+are&nbsp;necessary&nbsp;for&nbsp;these&nbsp;high-speed&nbsp;downloads.<br />
+Windows&nbsp;is&nbsp;a&nbsp;registered&nbsp;trademark&nbsp;of&nbsp;Microsoft&nbsp;Corporation.&nbsp;All&nbsp;other&nbsp;trademarks&nbsp;are&nbsp;used&nbsp;for&nbsp;identification<br />
+purposes&nbsp;only&nbsp;and&nbsp;may&nbsp;be&nbsp;trademarks&nbsp;and/or&nbsp;registered&nbsp;trademarks&nbsp;of&nbsp;their&nbsp;respective&nbsp;companies.<br />
+Copyright&nbsp;©&nbsp;2007&nbsp;&nbsp;USRobotics&nbsp;Corporation&nbsp;<br />
+1.024.1701-00<br />
+<hr>
+</BODY>
+</HTML>
