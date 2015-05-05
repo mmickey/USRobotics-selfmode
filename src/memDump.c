@@ -18,10 +18,10 @@ int write_cmd(int fd, char *cmd) {
 	if (write(fd, cmd, len) < len) return -1; // cannot write entire command
 	
 	/* clear the buffer from the echo string (see man 2 write) */
-	for (i = 0; i < len; i++) {
-		do { n = read(fd, &c, 1); } while (n == 0);
-		assert(c == cmd[i]);
-	}
+//	for (i = 0; i < len; i++) {
+//		do { n = read(fd, &c, 1); } while (n == 0);
+//		assert(c == cmd[i]);
+//	}
 	return 0;
 }
 
@@ -87,7 +87,7 @@ int get_modem_memory(int fd, char *fileName, char pageNum) {
 		else if (ch == terminator[0]) {
 			n = write(output, terminator, pos_term); // flush buffer in output file, without writing the just-read character equal to terminator[0]
 			if (n != pos_term) {
-				fprintf(stderr, "errore durante la scrittura del file di dump\n");
+				fprintf(stderr, "error during the write of dumpfile\n");
 				close(output);
 				return 3;
 			}
@@ -96,7 +96,7 @@ int get_modem_memory(int fd, char *fileName, char pageNum) {
 			if (pos_term > 0) {
 				n = write(output, terminator, pos_term);
 				if (n != pos_term) {
-					fprintf(stderr, "errore durante la scrittura del file di dump\n");
+					fprintf(stderr, "error during the write of dumpfile\n");
 					close(output);
 					return 4;
 				}
@@ -104,7 +104,7 @@ int get_modem_memory(int fd, char *fileName, char pageNum) {
 			}
 			n = write(output, &ch, 1);
 			if (n != 1) {
-				fprintf(stderr, "errore durante la scrittura del file di dump\n");
+				fprintf(stderr, "error during the write of dumpfile\n");
 				close(output);
 				return 4;
 			}
@@ -148,15 +148,17 @@ int init_modem(int fd) {
 }
 
 int init_port(char *port) {
-	int            fd;
+	int            fd, rc;
 	struct termios options;
 	
 	/* open the port */
 	fd = open(port, O_RDWR | O_NOCTTY | O_NDELAY);
-	fcntl(fd, F_SETFL, 0);
+	rc = fcntl(fd, F_SETFL, 0);
+	assert(0 == rc);
 	
 	/* get the current options */
-	tcgetattr(fd, &options);
+	rc = tcgetattr(fd, &options);
+	assert(0 == rc);
 	
 	/* set raw input, 1 second timeout */
 	options.c_cflag     |= (CLOCAL | CREAD);
@@ -166,7 +168,8 @@ int init_port(char *port) {
 	options.c_cc[VTIME]  = 10;
 	
 	/* set the options */
-	tcsetattr(fd, TCSANOW, &options);
+	rc = tcsetattr(fd, TCSANOW, &options);
+	assert(0 == rc);
 
 	return fd;
 }
